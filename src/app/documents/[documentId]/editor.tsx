@@ -18,6 +18,9 @@ import { useEditorStore } from "@/store/use-editor-store";
 import Underline from "@tiptap/extension-underline";
 import FontFamily from "@tiptap/extension-font-family";
 import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
+import Highlight from "@tiptap/extension-highlight";
+
 export const Editor = () => {
   const { setEditor } = useEditorStore();
   const editor = useEditor({
@@ -59,7 +62,7 @@ export const Editor = () => {
         nested: true,
       }),
       Heading.configure({
-        levels: [1, 2, 3],
+        levels: [1, 2, 3, 4, 5],
       }),
       Table.configure({
         resizable: true,
@@ -76,6 +79,10 @@ export const Editor = () => {
       Underline,
       FontFamily,
       TextStyle,
+      Color,
+      Highlight.configure({
+        multicolor: true,
+      }),
     ],
     content: `
             <p>Hello World! 🌎️</p>

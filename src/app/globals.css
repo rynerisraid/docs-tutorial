@@ -172,10 +172,16 @@ body {
     font-size: 1.1rem; 
   }
 
-  h4, 
-  h5, 
+  h4 {
+    font-size: 1.0rem;
+  }
+
+  h5{
+    font-size: 0.9rem;
+  }
+   
   h6 { 
-    font-size: 1rem; 
+    font-size: 0.8rem; 
   }
 
   /* Table-specific styling */

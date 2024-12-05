@@ -22,9 +22,34 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-
 import { DEFAULT_FONT_FAMILY_NAMES } from "@/lib/fontfamily";
 import { type Level } from "@tiptap/extension-heading";
+import { type ColorResult, SketchPicker } from "react-color";
+
+const HighlightColorButton = () => {
+  const { editor } = useEditorStore();
+
+  const value = editor?.getAttributes("textStyle").color || "#000000";
+
+  const onChange = (color: ColorResult) => {
+    editor?.chain().focus().setColor(color.hex).run();
+  };
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <span className="text-xs">
+            A
+            <div className="h-0.5 w-full" style={{ backgroundColor: value }} />
+          </span>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="border-0 p-0 z-10 flex flex-col gap-y-1 bg-white rounded-sm shadow-xl">
+        <SketchPicker color={value} onChange={onChange}></SketchPicker>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const HeadingLevelButton = () => {
   const { editor } = useEditorStore();
@@ -36,14 +61,13 @@ const HeadingLevelButton = () => {
     { label: "Heading 4", value: 4, fontSize: "18px" },
     { label: "Heading 5", value: 5, fontSize: "16px" },
   ];
-
   const getCurrentHeading = () => {
     for (let level = 1; level <= 5; level++) {
-      if (editor?.isActive("heading", { level })) {
+      if (editor?.isActive("heading", { level: level as Level })) {
         return `Heading ${level}`;
       }
-      return "Normal text";
     }
+    return "Normal text";
   };
   return (
     <DropdownMenu>
@@ -72,7 +96,7 @@ const HeadingLevelButton = () => {
             className={cn(
               "flex items-center gap-x-2 px-2 py-1 font-[value] rounded-sm hover:bg-neutral-200/80",
               (value === 0 && !editor?.isActive("heading")) ||
-                (editor?.isActive("heading", { level: value }) &&
+                (editor?.isActive("heading", { level: value as Level }) &&
                   "bg-neutral-200/80")
             )}
           >
@@ -90,7 +114,7 @@ const FontFamilyButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="h-7 w-[120px] shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+        <button className="h-7 w-[220px] shrink-0 flex items-center justify-between rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
           <span className="truncate">
             {editor?.getAttributes("textStyle").fontFamily || "Arial"}
           </span>
@@ -240,7 +264,7 @@ export const Toolbar = () => {
         <ToolbarButton key={item.label} {...item} />
       ))}
 
-      {/* TODO: Text color */}
+      <HighlightColorButton />
       {/* TODO: Hilight color */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/* TODO: Link */}
