@@ -46,7 +46,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { projectUpdateInfoSubscribe } from "next/dist/build/swc/generated-native";
 
 const FontSizeButton = () => {
   const { editor } = useEditorStore();
