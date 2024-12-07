@@ -14,7 +14,7 @@ export const FontSizeExtension = Extension.create({
     name: "fontSize",
     addOptions() {
         return {
-            types: ["testStyle"],
+            types: ["textStyle"],
         }
     },
     addGlobalAttributes() {
